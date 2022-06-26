@@ -31,4 +31,14 @@ class Api::V1::UsersController < ApplicationController
   def set_user
     @user = User.find(params[:id])
   end
+
+  # DELETE /users/1
+  def destroy
+    @user.destroy
+    head 204  
+  end
+
+
+
+
 end
