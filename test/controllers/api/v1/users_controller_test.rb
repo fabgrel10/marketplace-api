@@ -40,7 +40,7 @@ class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
 
   test 'should destroy user' do
     assert_difference('User.count', -1) do
-      delete api_v1_user_url(@user), as: :json
+      delete api_v1_user_url(@user), headers: { Authorization: JsonWebToken.encode(user_id: @user.id) }, as: :json
     end
     assert_response :no_content
   end

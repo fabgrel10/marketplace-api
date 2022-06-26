@@ -1,7 +1,9 @@
 class Api::V1::UsersController < ApplicationController
+  before_action :set_user, only: %i[show update destroy]
+
   # GET /users/1
   def show
-    render json: User.find(params[:id])
+    render json: @user
   end
 
   # POST /users
@@ -16,11 +18,19 @@ class Api::V1::UsersController < ApplicationController
   end
 
   # PATCH/PUT users/1
-  if @user.update(user_params)
-    render json: @user, status: :ok
-  else
-    render json: @user.errors, status: :unprocessable_entity
-   end
+  def update
+    if @user.update(user_params)
+      render json: @user, status: :ok
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE /users/1
+  def destroy
+    @user.destroy
+    head 204
+  end
 
   private
 
@@ -31,14 +41,4 @@ class Api::V1::UsersController < ApplicationController
   def set_user
     @user = User.find(params[:id])
   end
-
-  # DELETE /users/1
-  def destroy
-    @user.destroy
-    head 204  
-  end
-
-
-
-
 end
